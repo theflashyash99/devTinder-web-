@@ -1,8 +1,24 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmailId] = useState("Donald@gmail.com");
+  const [password, setPassword] = useState("Donald@12345");
+
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:9999/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      ); // withcredentials : true help in frontend axios to set cookies inside the browser
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="flex justify-center my-10">
@@ -11,11 +27,11 @@ const Login = () => {
           <h2 className="card-title">Login</h2>
           <div>
             <fieldset className="fieldset">
-              <legend className="fieldset-legend">Email ID</legend>
+              <legend className="fieldset-legend">Email ID </legend>
               <input
                 type="text"
                 className="input"
-                value={emailId}
+                value={email}
                 placeholder=""
                 onChange={(e) => setEmailId(e.target.value)}
               />
@@ -34,7 +50,9 @@ const Login = () => {
           </div>
 
           <div className="card-actions justify-center m-2">
-            <button className="btn btn-primary">Login</button>
+            <button className="btn btn-primary" onClick={handleLogin}>
+              Login
+            </button>
           </div>
         </div>
       </div>
