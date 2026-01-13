@@ -30,6 +30,7 @@
 });
 
 ##### here the axios credential ultimately set the cookies inside the browser.
+#### whenever use the axios or API calls send it with the { withCredentials : true,}
 
 
 
