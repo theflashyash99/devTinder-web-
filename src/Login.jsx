@@ -1,9 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addUser } from "./utils/userSlice";
 
 const Login = () => {
   const [email, setEmailId] = useState("Donald@gmail.com");
   const [password, setPassword] = useState("Donald@12345");
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     try {
@@ -15,6 +18,10 @@ const Login = () => {
         },
         { withCredentials: true }
       ); // withcredentials : true help in frontend axios to set cookies inside the browser
+
+      dispatch(addUser(res.data));
+
+
     } catch (err) {
       console.error(err);
     }
