@@ -9,7 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
-  console.log(user);
+  
 
   const handleLogOut = async () => {
     try {
@@ -21,7 +21,8 @@ const Navbar = () => {
       dispatch(removeUser());
       navigate("/login");
     } catch (err) {
-      console.err(err);
+      console.error(err)
+      
     }
   };
   return (

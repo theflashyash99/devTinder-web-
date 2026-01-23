@@ -29,7 +29,7 @@ const Login = () => {
 
       ;
     } catch (err) {
-      console.error(err);
+      
       setError(err?.response?.data || "Something went Wrong!");
     }
   };
