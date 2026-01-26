@@ -19,20 +19,39 @@ const Connections = () => {
     }
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     fetchConnections();
   }, []);
 
- if (!connection) return <h1>Loading...</h1>;
+  if (!connection) return <h1>Loading...</h1>;
 
-if (connection.length === 0) return <h1>No Connections Found!</h1>;
+  if (connection.length === 0) return <h1>No Connections Found!</h1>;
   return (
-    <div className="flex justify-center my-10">
-      <h1 className="text-bold text-2xl font-mono">Connections</h1>
+    <div className=" text-center my-10">
+      <h1 className="font-extrabold  font-mono text-4xl">Connections</h1>
 
-      {connection.map((connection,i) => (
-        <div key={i}>{connection.firstName}</div>
-      ))}
+      {connection.map((connections) => {
+        const { firstName, lastName, photoURL, age, gender, about } =
+          connections;
+
+        return (
+          <div className=" flex m-4 p-4 bg-base-300 rounded-2xl shadow-2xl w-1/2 mx-auto">
+            <div>
+              {" "}
+              <img
+                src={photoURL}
+                alt="photoURL"
+                className="w-30 h-30 rounded-lg  "
+              />
+            </div>
+            <div className="text-left mx-50 py-6 ">
+              <h2 className="font-extrabold text-xl">{firstName + " " + lastName}</h2>
+              <p>{about}</p>
+              <h2>{gender + ", "+ age}</h2>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

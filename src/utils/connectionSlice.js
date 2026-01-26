@@ -5,7 +5,7 @@ const connectionsSlice = createSlice({
     initialState: [],
     reducers :{
         addConnections : (state,action)=>{
-            action.payload;
+           return action.payload; // return is important otherwise the State in the redux will [] empty.
         },
         removeConnections : ()=> {
             return null;
