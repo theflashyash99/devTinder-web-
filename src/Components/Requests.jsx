@@ -2,46 +2,47 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addConnections } from "../utils/connectionSlice";
+import { addRequests } from "../utils/requestSlice";
 
-const Connections = () => {
+const Requests = () => {
+    const requests = useSelector((store)=> store.requests)
   const dispatch = useDispatch();
-  const connection = useSelector((store) => store.connections);
-  const fetchConnections = async () => {
+
+  const fetchRequest = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/user/connections", {
+      const res = await axios.get(BASE_URL + "/user/requests/received", {
         withCredentials: true,
       });
-      console.log(res.data);
-      dispatch(addConnections(res.data));
+      console.log(res.data.data);
+      dispatch(addRequests(res.data.data))
     } catch (err) {
-      console.log(err.response.data);
+      console.log(err.message);
     }
   };
 
   useEffect(() => {
-    fetchConnections();
+    fetchRequest();
   }, []);
 
-  if (!connection) return <h1>Loading...</h1>;
+   if (!requests) return <h1>Loading...</h1>;
 
-  if (connection.length === 0) return <h1>No Connections Found!</h1>;
- return (
+  if (requests.length === 0) return <h1>No Connections Found!</h1>;
+
+       return (
   <div className="my-12 px-4">
     <h1 className="text-center font-extrabold text-4xl text-white mb-10">
-      Connections
+      Connection Requests
     </h1>
 
-    {connection.map((connections) => {
+    {requests.map((request) => {
       const { firstName, lastName, photoURL, age, gender, about } =
-        connections;
+        request.fromUserId;
 
       return (
         <div
-          key={connections._id}
-          className="flex items-center gap-6 bg-base-300 hover:bg-base-200
-                     transition-all duration-300 rounded-2xl shadow-xl
-                     p-6 mb-6 max-w-2xl mx-auto"
+          key={request._id}
+          className="flex items-center gap-6 bg-base-300 hover:bg-base-200 transition-all duration-300
+                     rounded-2xl shadow-xl p-6 mb-6 max-w-2xl mx-auto"
         >
           {/* Profile Image */}
           <img
@@ -70,6 +71,7 @@ const Connections = () => {
   </div>
 );
 
+
 };
 
-export default Connections;
+export default Requests;
