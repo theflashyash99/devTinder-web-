@@ -33,7 +33,7 @@ const UserCard = ({ user }) => {
           <h2 className="card-title">
             {firstName} {lastName}
           </h2>
-          {age && gender && <p>{age + ", " + gender}</p>}
+          {age && gender && <h2>{age + ", " + gender}</h2>}
           <p>{about}</p>
           <div className="card-actions justify-end my-4 ">
             <button className="btn btn-primary" onClick={()=>handleSendRequest("ignored",_id)}>Ignore</button>

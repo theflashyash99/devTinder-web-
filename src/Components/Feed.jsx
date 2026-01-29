@@ -10,22 +10,31 @@ const Feed = () => {
   const feeds = useSelector((store) => store.feed);
 
   const getFeed = async () => {
-    if (feeds) return;
-
     try {
-      const res = await axios.get(BASE_URL + "/feed" , {withCredentials:true});
-      dispatch(addFeed(res.data));
+      const res = await axios.get(BASE_URL + "/feed", {
+        withCredentials: true,
+      });
+
+      // ✅ store ONLY the array
+      dispatch(addFeed(res.data.data));
     } catch (err) {
-      console.error(err)
-     
+      console.error(err);
     }
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     getFeed();
-  },[])
-  return feeds && (<div className="my-4 flex justify-center"><UserCard user={feeds.data[0]}/></div>);
+  }, []);
+
+  if (feeds.length === 0) {
+    return <h1 className="flex justify-center my-10">No new users found!</h1>;
+  }
+
+  return (
+    <div className="my-4 flex justify-center">
+      <UserCard user={feeds[0]} />
+    </div>
+  );
 };
 
 export default Feed;
