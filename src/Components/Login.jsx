@@ -16,6 +16,22 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleSignUp = async () => {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/signup",
+        { firstName, lastName, email, password },
+        { withCredentials: true },
+      );
+
+      dispatch(addUser(res.data.data));
+
+      navigate("/profile");
+    } catch (err) {
+      setError(err?.response?.data || "Something went Wrong!"); 
+    }
+  };
+
   const handleLogin = async () => {
     try {
       const res = await axios.post(
@@ -82,7 +98,7 @@ const Login = () => {
             <fieldset className="fieldset">
               <legend className="fieldset-legend">Password</legend>
               <input
-                type="text"
+                type="password"
                 className="input"
                 value={password}
                 placeholder=""
@@ -93,11 +109,21 @@ const Login = () => {
           <p className="text-red-500 p-2 font-mono">{error}</p>
 
           <div className="card-actions justify-center m-2">
-            <button className="btn btn-primary" onClick={handleLogin}>
+            <button
+              className="btn btn-primary"
+              onClick={isLoginForm ? handleLogin : handleSignUp}
+            >
               {isLoginForm ? "Login" : "Sign Up"}
             </button>
           </div>
-          <p className="cursor-pointer hover:underline flex justify-center" onClick={() => setIsLoginForm((value) => !value)}>{isLoginForm ? "New User? Sign Up Here!" : "Existing User ? Login Here"}</p>
+          <p
+            className="cursor-pointer hover:underline flex justify-center"
+            onClick={() => setIsLoginForm((value) => !value)}
+          >
+            {isLoginForm
+              ? "New User? Sign Up Here!"
+              : "Existing User ? Login Here"}
+          </p>
         </div>
       </div>
     </div>
